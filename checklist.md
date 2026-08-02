@@ -36,6 +36,16 @@
 - [x] 배포된 사이트의 정적 자산(HTML/JS/CSS/config.js) 200 확인
 
 ## 7. 남은 작업
+- [x] 모노레포(`my-project`) 쪽 사본 추적 제거 완료 (커밋 `da198c5`, push 완료)
 - [ ] (권장) Supabase 대시보드에서 발급받은 Personal Access Token 폐기 — 대화 기록에 남아있어 revoke 권장
-- [ ] 상위 모노레포(`my-project`)에도 동일 파일이 커밋되어 있음(커밋 `5c28df9`) — 이제 별도 저장소로 운영되므로,
-      모노레포 쪽 사본을 계속 둘지/제거할지는 사용자 결정 필요 (자동으로 지우지 않음)
+
+## 8. 백엔드 관리 API 추가
+- [x] `backend/server.mjs` + `backend/routes/prompts.mjs` — 프롬프트 CRUD REST API (Express)
+- [x] `backend/lib/store.mjs` — data/prompts/*.json 읽기/쓰기/삭제
+- [x] `backend/lib/supabaseSync.mjs` — 생성/수정 시 upsert, 삭제 시 delete (service_role 키)
+- [x] 쓰기(POST/PUT/DELETE)에 `ADMIN_TOKEN` Bearer 인증 적용, 읽기는 공개
+- [x] `backend/admin/` — 최소 관리자 웹 UI (목록/추가/삭제, 토큰 입력)
+- [x] `tests/backend.test.mjs` — CRUD 전 구간 + 인증 + 검증 실패 케이스 통합 테스트 (11개, 임시 디렉터리 사용)
+- [x] `npm test` 전체 24/24 통과
+- [x] 실제 서버 기동 후 real Supabase로 생성→확인→삭제 End-to-End 검증, 이후 샘플 7개 무결성 확인
+- [x] README에 관리자 API 사용법 추가

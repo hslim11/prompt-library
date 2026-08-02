@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>프롬프트 라이브러리 — 관리자</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🛠️ 프롬프트 관리</h1>
+    <div class="token-row">
+      <label>관리자 토큰 <input id="token" type="password" placeholder="ADMIN_TOKEN" /></label>
+      <button id="saveToken">저장</button>
+    </div>
+  </header>
+
+  <section id="formSection">
+    <h2>새 프롬프트 추가</h2>
+    <form id="promptForm">
+      <input name="id" placeholder="id (kebab-case)" required />
+      <input name="title" placeholder="제목" required />
+      <input name="category" placeholder="category id (예: writing)" required />
+      <input name="tags" placeholder="태그 (쉼표로 구분)" required />
+      <input name="model" placeholder="추천 모델" required />
+      <input name="version" placeholder="버전" value="1.0" required />
+      <textarea name="body" placeholder="프롬프트 본문" required></textarea>
+      <input name="notes" placeholder="사용 팁 (선택)" />
+      <button type="submit">저장</button>
+      <span id="formError" class="error"></span>
+    </form>
+  </section>
+
+  <section>
+    <h2>전체 목록</h2>
+    <table id="list">
+      <thead><tr><th>id</th><th>제목</th><th>카테고리</th><th>버전</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -9,14 +9,17 @@
 data/prompts/*.json     ← 진실의 원천. 프롬프트 추가/수정은 여기서만.
 data/categories.json    ← 카테고리 정의 (docs/app.js의 CATEGORIES와 내용 동일하게 유지)
 scripts/validate.mjs    ← data/prompts/*.json 스키마 검증
-scripts/sync.mjs        ← 검증 후 Supabase에 upsert
-docs/                   ← GitHub Pages로 배포되는 정적 프런트엔드
-tests/                  ← node --test 로 실행하는 단위 테스트
+scripts/sync.mjs        ← 검증 후 Supabase에 upsert (일괄)
+backend/                ← 로컬 전용 관리자 API 서버 + 관리자 UI (CRUD)
+docs/                   ← GitHub Pages로 배포되는 정적 프런트엔드 (읽기 전용)
+tests/                  ← node --test 로 실행하는 단위/통합 테스트
 ```
 
-동작 흐름: `data/prompts/*.json` 편집 → `npm run sync` → Supabase 반영 →
+동작 흐름: `data/prompts/*.json` 편집(직접 또는 `backend/` 관리자 UI로) →
+파일 저장 시 Supabase에 즉시 반영(관리자 UI) 또는 `npm run sync`로 일괄 반영 →
 `docs/`가 브라우저에서 Supabase를 anon key로 직접 조회해 검색/필터링.
-GitHub Pages는 정적 파일만 서빙하므로 별도 서버 없이 이 구조로 동작합니다.
+GitHub Pages는 정적 파일만 서빙하므로, 공개 사이트(`docs/`)에는 별도 서버가 필요 없습니다.
+`backend/`는 프롬프트를 **관리(쓰기)**할 때만 로컬에서 실행하는 도구이며 배포 대상이 아닙니다.
 
 ## 처음 설정하기
 
@@ -50,6 +53,16 @@ cp docs/config.example.js docs/config.js
 
 ## 새 프롬프트 추가하는 법
 
+### 방법 A. 관리자 API 서버 사용 (추천)
+```bash
+npm run backend
+open http://localhost:8787/admin
+```
+브라우저에서 상단에 `.env`의 `ADMIN_TOKEN` 값을 입력·저장한 뒤 폼으로 추가/삭제하면
+`data/prompts/*.json` 저장과 Supabase 반영이 한 번에 처리됩니다. 수정(PUT)은 API로만 가능
+(`curl -X PUT http://localhost:8787/api/prompts/<id> -H "Authorization: Bearer $ADMIN_TOKEN" -H "Content-Type: application/json" -d '{"version":"1.1"}'`).
+
+### 방법 B. 파일 직접 편집
 1. `data/prompts/`에 새 JSON 파일 생성 (파일명 = `id`, kebab-case 권장)
    ```json
    {
@@ -69,14 +82,18 @@ cp docs/config.example.js docs/config.js
 3. 동기화: `npm run sync` (실제 반영 전 `npm run sync:dry-run`으로 먼저 확인 가능)
 4. 프롬프트를 수정할 때는 `version`을 올리고(예: 1.0 → 1.1), git 히스토리가 이전 버전 기록을 대신합니다.
 
+두 방법 모두 결과물은 동일하게 `data/prompts/*.json`(git으로 버전관리)입니다. 방법 A는
+파일 저장 + Supabase 반영을 자동으로 묶어서 처리해줄 뿐입니다.
+
 ## 명령어
 
 | 명령 | 설명 |
 |---|---|
 | `npm run validate` | `data/prompts/*.json` 스키마 검증 |
 | `npm run sync:dry-run` | 실제 반영 없이 upsert 대상만 출력 |
-| `npm run sync` | Supabase에 실제 반영 |
-| `npm test` | 검증/필터 로직 단위 테스트 실행 |
+| `npm run sync` | Supabase에 실제 반영 (일괄) |
+| `npm run backend` | 관리자 API 서버 실행 (`localhost:8787`, `/admin`이 관리자 UI) |
+| `npm test` | 검증/필터/백엔드 API 테스트 실행 |
 
 ## 로컬에서 프런트엔드 미리보기
 

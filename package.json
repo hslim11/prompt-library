@@ -8,9 +8,11 @@
     "validate": "node scripts/validate.mjs",
     "sync": "node scripts/sync.mjs",
     "sync:dry-run": "node scripts/sync.mjs --dry-run",
+    "backend": "node backend/server.mjs",
     "test": "node --test \"tests/*.test.mjs\""
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/supabase-js": "^2.45.0",
+    "express": "^4.21.0"
   }
 }

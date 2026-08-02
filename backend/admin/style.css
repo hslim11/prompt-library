@@ -1,0 +1,24 @@
+:root { color-scheme: light dark; --border: #d8d8dc; }
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+h1 { font-size: 1.3rem; margin-bottom: 12px; }
+.token-row { display: flex; gap: 8px; align-items: center; margin-bottom: 24px; }
+.token-row input { flex: 1; padding: 6px 8px; }
+form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+form input, form textarea {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+}
+form textarea { min-height: 100px; }
+form button { align-self: flex-start; padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
+.error { color: #d33; font-size: 0.85rem; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+button.delete { color: #d33; border: none; background: none; cursor: pointer; }

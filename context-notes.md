@@ -53,6 +53,22 @@ Fuse.js 등 추가 의존성은 이 규모에 과剩 — CLAUDE.md 단순함 우
 4. ~~`docs/config.js`에 `SUPABASE_URL`, `SUPABASE_ANON_KEY` 설정~~ 완료
 5. GitHub 저장소 생성 후 Pages를 `docs/` 디렉토리로 설정 — 아직 미완료
 
+## 백엔드 관리 API (2026-08-02 추가)
+"백엔드 프로그램 제작해줘" 요청에 대해, 여러 차례 명확화 질문이 스킵/거절되어
+"현재 맥락"(Prompt-Library)에서 가장 자연스러운 해석인 "프롬프트 CRUD 관리 API"로 판단하고 진행함.
+
+- 공개 사이트(`docs/`, GitHub Pages)는 여전히 서버 없는 정적 구조를 유지 — 이건 안 바꿈.
+- 새로 추가한 `backend/`는 **로컬 전용** 관리 도구. `SUPABASE_SERVICE_KEY`를 쓰기 때문에
+  공개 배포 대상이 아니며, GitHub Pages에도 올라가지 않음(별도 디렉터리, docs/ 밖).
+- 쓰기는 `data/prompts/*.json` 파일에 먼저 반영한 뒤 Supabase에 upsert/delete —
+  "파일이 진실의 원천"이라는 기존 원칙을 그대로 유지. 즉 backend는 `npm run sync`를
+  자동화해주는 창구일 뿐, 별도의 데이터 소스를 만들지 않음.
+- 인증은 단일 `ADMIN_TOKEN` 환경변수 비교 방식 (Bearer 토큰). 개인 1인 도구라
+  세션/유저 시스템은 요청받지 않았고 과한 설계라 판단해 넣지 않음.
+- 테스트는 `PROMPTS_DIR_OVERRIDE` 환경변수로 임시 디렉터리를 가리키게 하고,
+  Supabase 호출은 라우터 팩토리에 함수를 주입해 실제 네트워크 호출 없이 검증.
+  실제 Supabase까지 왕복하는 End-to-End 확인은 별도로 한 번 수동 실행(생성→조회→삭제)해서 검증함.
+
 ## Supabase 프로젝트 정보
 - 프로젝트명: `prompt-library`, ref: `ibdgdkxftsvkrdvswzjb`, 리전: `ap-northeast-2`(서울)
 - 조직: `hslim11's Org` (`yqzprkhtdveoeabiapsw`)
