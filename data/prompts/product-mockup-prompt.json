@@ -1,0 +1,11 @@
+{
+  "id": "product-mockup-prompt",
+  "title": "제품 목업 이미지 생성 프롬프트",
+  "category": "image",
+  "tags": ["이미지생성", "제품목업", "광고"],
+  "model": "Gemini 3 Pro Image",
+  "version": "1.0",
+  "body": "A minimalist studio product photo of {{제품 설명}}, soft directional lighting, pastel gradient background, subtle shadow, centered composition, high resolution, commercial photography style, no text.",
+  "notes": "제품 설명 부분에 재질/색상/형태를 구체적으로 넣을수록 결과가 안정적임.",
+  "updated_at": "2026-06-19T00:00:00Z"
+}

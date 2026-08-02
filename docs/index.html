@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>프롬프트 라이브러리</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📚 프롬프트 라이브러리</h1>
+    <input id="search" type="search" placeholder="제목·태그·모델로 검색 (예: 블로그, SEO, Claude)" autocomplete="off" />
+  </header>
+
+  <nav id="categoryTabs" aria-label="카테고리"></nav>
+  <div id="tagChips" aria-label="태그 필터"></div>
+
+  <main id="results"></main>
+  <p id="empty" hidden>일치하는 프롬프트가 없습니다.</p>
+  <p id="loadError" hidden>Supabase 연결에 실패했습니다. docs/config.js 설정을 확인하세요. (README 참고)</p>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

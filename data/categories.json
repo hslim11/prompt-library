@@ -1,0 +1,9 @@
+[
+  { "id": "writing", "label": "글쓰기", "emoji": "✍️" },
+  { "id": "automation", "label": "업무자동화", "emoji": "⚙️" },
+  { "id": "marketing", "label": "마케팅", "emoji": "📣" },
+  { "id": "image", "label": "이미지생성", "emoji": "🎨" },
+  { "id": "coding", "label": "코딩/개발", "emoji": "💻" },
+  { "id": "research", "label": "리서치/분석", "emoji": "🔍" },
+  { "id": "etc", "label": "기타", "emoji": "🗂️" }
+]

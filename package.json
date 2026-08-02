@@ -1,0 +1,16 @@
+{
+  "name": "prompt-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "개인 프롬프트 라이브러리 — data/*.json을 Supabase에 동기화하고 GitHub Pages에서 검색/필터링",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "sync": "node scripts/sync.mjs",
+    "sync:dry-run": "node scripts/sync.mjs --dry-run",
+    "test": "node --test \"tests/*.test.mjs\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}
