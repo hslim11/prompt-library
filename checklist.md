@@ -30,6 +30,12 @@
 - [x] `npm run sync`로 샘플 7개를 실제 Supabase에 반영, REST API로 조회/쓰기차단 확인
       (anon key SELECT 성공, INSERT 401 차단 — RLS 정상)
 
-## 6. 남은 작업
-- [ ] GitHub 저장소 생성 + Pages를 `docs/`로 설정 (배포)
-- [ ] (권장) 대시보드에서 발급받은 Personal Access Token 폐기 — 대화 기록에 남아있어 revoke 권장
+## 6. 배포
+- [x] GitHub 저장소 생성: https://github.com/hslim11/prompt-library (별도 신규 저장소, 모노레포와 분리)
+- [x] GitHub Pages 활성화 (`main` 브랜치 `/docs`) → https://hslim11.github.io/prompt-library/
+- [x] 배포된 사이트의 정적 자산(HTML/JS/CSS/config.js) 200 확인
+
+## 7. 남은 작업
+- [ ] (권장) Supabase 대시보드에서 발급받은 Personal Access Token 폐기 — 대화 기록에 남아있어 revoke 권장
+- [ ] 상위 모노레포(`my-project`)에도 동일 파일이 커밋되어 있음(커밋 `5c28df9`) — 이제 별도 저장소로 운영되므로,
+      모노레포 쪽 사본을 계속 둘지/제거할지는 사용자 결정 필요 (자동으로 지우지 않음)
