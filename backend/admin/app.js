@@ -3,6 +3,11 @@ const tokenInput = document.getElementById('token');
 const listBody = document.querySelector('#list tbody');
 const form = document.getElementById('promptForm');
 const formError = document.getElementById('formError');
+const formTitle = document.getElementById('formTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelEditBtn = document.getElementById('cancelEdit');
+
+let editingId = null;
 
 tokenInput.value = localStorage.getItem('adminToken') || '';
 document.getElementById('saveToken').addEventListener('click', () => {
@@ -14,20 +19,68 @@ function authHeaders() {
   return { Authorization: `Bearer ${localStorage.getItem('adminToken') || ''}` };
 }
 
+function enterEditMode(prompt) {
+  editingId = prompt.id;
+  form.id.value = prompt.id;
+  form.id.disabled = true;
+  form.title.value = prompt.title;
+  form.category.value = prompt.category;
+  form.tags.value = (prompt.tags || []).join(', ');
+  form.model.value = prompt.model;
+  form.version.value = prompt.version;
+  form.body.value = prompt.body;
+  form.notes.value = prompt.notes || '';
+
+  formTitle.textContent = `프롬프트 수정 — ${prompt.id}`;
+  submitBtn.textContent = '수정 저장';
+  cancelEditBtn.hidden = false;
+  formError.textContent = '';
+  highlightRow(prompt.id);
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function exitEditMode() {
+  editingId = null;
+  form.reset();
+  form.id.disabled = false;
+  formTitle.textContent = '새 프롬프트 추가';
+  submitBtn.textContent = '저장';
+  cancelEditBtn.hidden = true;
+  formError.textContent = '';
+  highlightRow(null);
+}
+
+function highlightRow(id) {
+  for (const tr of listBody.querySelectorAll('tr')) {
+    tr.classList.toggle('selected', tr.dataset.id === id);
+  }
+}
+
+cancelEditBtn.addEventListener('click', exitEditMode);
+
 async function loadList() {
   const res = await fetch('/api/prompts');
   const prompts = await res.json();
   listBody.innerHTML = '';
   for (const p of prompts.sort((a, b) => a.id.localeCompare(b.id))) {
     const tr = document.createElement('tr');
+    tr.dataset.id = p.id;
+    tr.classList.toggle('selected', p.id === editingId);
     tr.innerHTML = `
       <td>${p.id}</td>
       <td>${p.title}</td>
       <td>${p.category}</td>
       <td>v${p.version}</td>
-      <td><button data-id="${p.id}" class="delete">삭제</button></td>
+      <td><button type="button" class="delete">삭제</button></td>
     `;
-    tr.querySelector('.delete').addEventListener('click', () => deletePrompt(p.id));
+    tr.addEventListener('click', (e) => {
+      if (e.target.closest('.delete')) return;
+      enterEditMode(p);
+    });
+    tr.querySelector('.delete').addEventListener('click', (e) => {
+      e.stopPropagation();
+      deletePrompt(p.id);
+    });
     listBody.appendChild(tr);
   }
 }
@@ -42,6 +95,7 @@ async function deletePrompt(id) {
     alert(`삭제 실패: ${(await res.json()).error || res.status}`);
     return;
   }
+  if (id === editingId) exitEditMode();
   loadList();
 }
 
@@ -54,8 +108,12 @@ form.addEventListener('submit', async (e) => {
     tags: data.tags.split(',').map((t) => t.trim()).filter(Boolean),
   };
 
-  const res = await fetch('/api/prompts', {
-    method: 'POST',
+  const isEditing = Boolean(editingId);
+  const url = isEditing ? `/api/prompts/${encodeURIComponent(editingId)}` : '/api/prompts';
+  if (isEditing) delete payload.id; // id는 URL로 지정, 본문에서는 불필요
+
+  const res = await fetch(url, {
+    method: isEditing ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(payload),
   });
@@ -65,7 +123,7 @@ form.addEventListener('submit', async (e) => {
     formError.textContent = (body.errors || [body.error]).join(', ');
     return;
   }
-  form.reset();
+  exitEditMode();
   loadList();
 });
 

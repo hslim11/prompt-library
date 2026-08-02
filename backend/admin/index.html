@@ -16,7 +16,7 @@
   </header>
 
   <section id="formSection">
-    <h2>새 프롬프트 추가</h2>
+    <h2 id="formTitle">새 프롬프트 추가</h2>
     <form id="promptForm">
       <input name="id" placeholder="id (kebab-case)" required />
       <input name="title" placeholder="제목" required />
@@ -26,13 +26,16 @@
       <input name="version" placeholder="버전" value="1.0" required />
       <textarea name="body" placeholder="프롬프트 본문" required></textarea>
       <input name="notes" placeholder="사용 팁 (선택)" />
-      <button type="submit">저장</button>
+      <div class="form-actions">
+        <button type="submit" id="submitBtn">저장</button>
+        <button type="button" id="cancelEdit" hidden>수정 취소</button>
+      </div>
       <span id="formError" class="error"></span>
     </form>
   </section>
 
   <section>
-    <h2>전체 목록</h2>
+    <h2>전체 목록 <span class="hint">(행을 클릭하면 수정)</span></h2>
     <table id="list">
       <thead><tr><th>id</th><th>제목</th><th>카테고리</th><th>버전</th><th></th></tr></thead>
       <tbody></tbody>

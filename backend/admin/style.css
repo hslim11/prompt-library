@@ -17,8 +17,14 @@ form input, form textarea {
   font: inherit;
 }
 form textarea { min-height: 100px; }
-form button { align-self: flex-start; padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
+form input:disabled { opacity: 0.6; }
+.form-actions { display: flex; gap: 8px; }
+form button { padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
 .error { color: #d33; font-size: 0.85rem; }
+.hint { font-weight: normal; font-size: 0.8rem; color: #888; }
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: rgba(127, 127, 127, 0.08); }
+tbody tr.selected { background: rgba(79, 70, 229, 0.12); }
 button.delete { color: #d33; border: none; background: none; cursor: pointer; }
